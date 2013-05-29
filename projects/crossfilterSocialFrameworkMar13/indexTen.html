@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>dc.js - Dimensional Charting Javascript Library</title>
+    <link rel="shortcut icon" href="favicon.ico"> 
+
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="d3.v2.js"></script>
+    <script type="text/javascript" src="crossfilter.v1.js"></script>
+    <script type="text/javascript" src="dc.js"></script>
+    <link rel="stylesheet" type="text/css" href="dc.css"/> 
+    <link rel="stylesheet" type="text/css" href="example.css"/> 
+
+    <link href='highlighter/shCore.css' rel='stylesheet' type='text/css'/>
+    <link href='highlighter/shThemeDefault.css' rel='stylesheet' type='text/css'/>
+    <script src='highlighter/shCore.js' type='text/javascript'></script>
+    <script src="highlighter/shAutoloader.js" type="text/javascript"></script>
+    <script src='highlighter/shBrushJScript.js' type='text/javascript'></script>
+    <script src='highlighter/shBrushXml.js' type='text/javascript'></script>
+    
+    <style>
+    	body {
+    		font-family: Segoe UI;
+    	}
+        #centre {
+            width: 990px;
+            margin: 0px auto;
+        }
+    	#table {
+    		width: 700px;
+    		margin: 0px auto;
+    	}
+    	.dc-chart g.stack1 path.line {
+            stroke: steelblue;
+    	}
+    	.dc-chart g.stack1 circle.dot{
+            fill: blue;
+    	}
+    	.dc-chart g.stack1 path.area {
+            fill: blue;
+        }
+        .dc-data-table {
+            margin-top: 50px;
+        }
+        /*
+        .dc-data-table td.row:hover {
+            background-color:red;
+        }
+        */
+        .dc-data-table thead td {
+            background-color: white;
+            color: grey;
+            text-decoration:underline;
+            font-weight: normal;
+        }
+        .insights {
+            position:absolute;
+            margin-bottom: 350;
+            color:steelblue;
+            z-index: 999999;
+        }
+        p {
+            margin-bottom:50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+
+    <h2>Microsoft - Twitter Sentiment</h2>
+
+    <div id="pone">
+    <p id="insights">
+        Can fill in insights here which will transform the visual when clicking on it. So can lead the audience to exact insights you want them to see and they can toggle back and forth. For example, can show there are not many tweets in the morning when people are sleeping <a href="javascript:dc.filterAll(); dc.renderAll(); javascript:hourChart.filter([1,3]); dc.redrawAll();"> 1 - 3 am </a> and there is a lot of reach <a href="javascript:dc.filterAll(); dc.renderAll(); javascript:reachChart.filter([90,95]);dc.redrawAll();"> between 90 and 95 </a>. Or can filter it by multiple filters and show data both <a href="javascript:dc.filterAll(); dc.renderAll(); javascript:hourChart.filter([1,3]); dc.redrawAll();javascript:reachChart.filter([90,95]);dc.redrawAll();"> between 1 - 3 am and between 90 and 95 reach </a>.
+    </p>
+    </div>
+
+    <div id="centre">
+
+        <div id="sentiment-pie-chart" >
+            <span>Sentiment</span>
+            <a class="reset" href="javascript:sentimentPieChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clear"></div>
+        </div> 
+
+        <!--
+        <div id="sentiment-chart">
+            <span>Sentiment</span>
+            <a class="reset" href="javascript:sentimentChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clear"></div>
+        </div>
+        -->
+        <div id="reach-chart">
+            <span>Reach</span>
+            <a class="reset" href="javascript:reachChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clear"></div>
+        </div>
+<!--
+        <div id="hour-chart" >
+            <span>Time of Day</span>
+            <a class="reset" href="javascript:hourChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clear"></div>
+        </div>  
+-->
+        <div id="follower-chart" >
+            <span>Number of Followers</span>
+            <a class="reset" href="javascript:followerChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clear"></div>
+        </div> 
+    </div> <!-- end of centreTwo div -->
+
+    <!-- Second layer, text output and pie chart -->
+
+        <div id="data-output">
+            <div class="header">
+                <span>Positive Output</span>
+            </div>
+            <!-- Output is rendered here -->
+        </div>
+
+
+<!--
+    <div id="volume-chart">
+        <span class="title">Time Period - New Chart</span>
+        <div class="clear"></div>
+    </div>
+-->
+    <div id="date-chart">
+        <span>Time Period - New Chart</span>
+        <a class="reset" href="javascript:dateChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+        <div class="clear"></div>
+    </div>  
+<!--
+    <div id="monthly-volume-chart">
+        <span class="title">Time Period</span>
+        <div class="clear"></div>
+    </div>
+-->
+    <div>
+        <div class="dc-data-count">
+            <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a href="javascript:dc.filterAll(); dc.renderAll();" style="color: rgb(164,0,29)"><b>Reset All</b></a>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div id="table">
+        <table class="dc-data-table">
+            <thead>
+            <tr class="header">
+                <td>Date</td>
+                <td>Tweet</td>
+                <td>Sentiment</td>
+                <td>Reach</td>
+                <td>Followers</td>
+                <!--
+                <td>Change</td>
+                <td>Volume</td>
+                -->
+
+                <!--
+                <td>Date</td>
+                <td>Tweet</td>
+                <td>Sentiment</td>
+                <td>Reach</td>
+                -->
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+<script type="text/javascript">
+//var sentimentChart = dc.barChart("#sentiment-chart");
+var reachChart = dc.barChart("#reach-chart");
+//var hourChart = dc.barChart("#hour-chart");
+//var volumeChart = dc.barChart("#monthly-volume-chart");
+var sentimentBubbleChart = dc.bubbleChart("#sentiment-bubble-chart");
+//new volume chart
+var dateChart = dc.barChart("#date-chart");
+var sentimentPieChart = dc.pieChart("#sentiment-pie-chart")
+var followerChart = dc.barChart("#follower-chart")
+
+// set dc.js version in title
+d3.selectAll("#version").text(dc.version);
+
+// load data from a csv file
+d3.csv("dataFive.csv", function(data) {
+//d3.csv("comboDataPosFull.csv") {
+            // since its a csv file we need to format the data a bit
+            /*
+            var newdata = [
+                {'count': 728, 'name': 'sample0'}, 
+                {'count': 824, 'name': 'sample1'}, 
+                {'count': 963, 'name': 'sample2'}, 
+                {'count': 927, 'name': 'sample3'}, 
+                {'count': 721, 'name': 'sample4'}, 
+                {'count': 874, 'name': 'sample5'}, 
+                {'count': 733, 'name': 'sample6'}, 
+                {'count': 757, 'name': 'sample7'}
+            ];
+            var pone = d3.sum(newdata, function(d) { return d.count; }); */
+
+            //var emma = d3.sum(data, function(d) { return d.tweethyp; });
+            var emma = d3.sum(data, function(d) { 
+                //return d.followers; 
+                //if (d.followers < 2000) { return d.followers; }
+                if (d.sentiment === 'positive') { return d.followers; }
+            });
+            //d3.select(".data-output").append("p").text("rendering")
+            d3.select("#data-output").append("span").text(emma)
+
+
+            //DON'T MESS WITH DATES
+            var dateFormat = d3.time.format("%m/%d/%Y");
+            var numberFormat = d3.format(".2f");
+
+            data.forEach(function(e) {
+                e.dd = dateFormat.parse(e.date);
+                e.month = d3.time.month(e.dd); // pre-calculate month for better performance
+                e.day = d3.time.day(e.dd);
+            });
+
+            // feed it through crossfilter
+            var ndx = crossfilter(data);
+            var all = ndx.groupAll();
+            
+            //WHERE EDITS BEGIN
+
+            var dateDimension = ndx.dimension(function(d) {
+                return d.dd;
+            });
+
+            // monthly index avg fluctuation in percentage
+            var moveMonths = ndx.dimension(function(d) {
+                return d.month;
+            });
+            
+            var volumeByMonthGroup = moveMonths.group().reduceSum(function(d) {
+                return d.volume / 500000;
+            });
+            //above grouping by months Not an interval Keep in mind when need to group by positive negative
+
+            var moveDays = ndx.dimension(function(d) {
+                return d.day;
+            });
+
+            var volumeByDayGroup = moveDays.group().reduceSum(function(d) {
+                return d.volume / 500000;
+            })
+
+            /*
+            var open = ndx.dimension(function(d) {
+                return d.open;
+            });
+
+            var openGroup = open.group(function(d) {return Math.floor(d/10) * 10; });
+            //var openGroup = open.group(function(d) {return Math.interval(1000, 3000[, 300]) });
+            */
+            var reach = ndx.dimension(function(d) {
+                return d.reach;
+            });
+
+            var reachGroup = reach.group(function(d) {return d; });
+
+            var follower = ndx.dimension(function(d) { 
+                return d.followers; 
+            });
+
+            var followerGroup = follower.group(function(d) {return d; });
+
+            var hour = ndx.dimension(function(d) {
+                return d.dd.getHours() + d.dd.getMinutes() / 60;
+            });
+
+            var hourGroup = hour.group(function(d) { return d; });
+
+            //for WEIRD date format, NEEDS TO BE CHANGED
+            //var formatTime = d3.time.format("%I:%M %p");
+            //  ndx.forEach(function(d, i) {
+            //    d.index = i;
+            //    d.raw = parseDate(d.raw);
+            //  });
+            //NEW VAR, old one works but no hours speceified, duh
+            //var hr = ndx.dimension(function(d) { return d.raw.getHours() + d.raw.getMinutes() / 60; });
+
+            //var hours = hour.group(Math.floor);
+
+            var hrkloog = ndx.dimension(function(d) {
+                return d.hour;
+            });
+
+            var hrkloogGroup = hrkloog.group(function(d) {return d; });
+
+            //new volume chart
+            var datedim = ndx.dimension(function(d) {
+                return d.pone;
+            });
+
+            var dateGroup = datedim.group(function(d) { return d; });
+            //end of new volume chart
+
+            //new volume chart
+            var datesum = ndx.dimension(function(d) {
+                return d.day;
+            });
+
+            var datesumGroup = datesum.group(function(d) { return d; });
+            //end of new volume chart
+
+
+            var x = d3.scale.ordinal()
+                .rangeRoundBands([0, 125], .1);
+
+            var nestByName = d3.nest()
+                .key(function(d) {return d.sentiment;});
+
+            var sentiment = ndx.dimension(function(d) { return d.sentiment; });
+                //return x(d.sentiment);
+
+            var sentimentGroup = sentiment.group(function(d) {return d; });
+
+            var sentimentGroupTwo = sentiment.group().reduceSum(function(d) {
+                return d.tweethyp;
+            });
+
+            var sentimentStats = sentiment.group().reduce(
+                function(p,v) {
+                    p.tweetnumber += +v["tweethyp"];
+                    p.followers += +v["followers"];
+                    return p;
+                },
+                function(p,v) {
+                    p.tweetnumber -= +v["tweethyp"];
+                    p.followers -= +v["followers"];
+                    return p;
+                },
+                function() {
+                    return {tweetnumber:0, followers:0};
+                });
+
+            /*
+             var fluctuationTwo = ndx.dimension(function(d) {
+                return Math.round((d.close - d.open) / d.open * 100);
+            });
+            var fluctuationTwoGroup = fluctuation.group();
+            */
+            /*
+            fluctuationChart.width(200)
+                    .height(150)
+                    .margins({top: 20, right: 30, bottom: 50, left: 30})
+                    .dimension(fluctuation)
+                    .group(fluctuationGroup)
+                    .elasticY(true)
+                    .centerBar(true)
+                    .gap(.7)
+                    .round(dc.round.floor)
+                    .x(d3.scale.linear().domain([-4, 4]))
+                    //.renderHorizontalGridLines(true)
+                    .xAxis()
+                    .tickFormat(function(v) {
+                        return v + "%";
+                    });
+
+            fluctuationChartTwo.width(275)
+                    .height(150)
+                    .margins({top: 20, right: 30, bottom: 50, left: 30})
+                    .dimension(fluctuationTwo)
+                    .group(fluctuationTwoGroup)
+                    .elasticY(true)
+                    .centerBar(true)
+                    .gap(.7)
+                    .round(dc.round.floor)
+                    .x(d3.scale.linear().domain([-8, 8]))
+                    //.renderHorizontalGridLines(true)
+                    .xAxis()
+                    .tickFormat(function(v) {
+                        return v + "%";
+                    });
+            */
+        //BEGIN OF THREE NEW CHARTS
+            /*
+            sentimentChart.width(200)
+                    .height(150)
+                    .margins({top: 20, right: 30, bottom: 50, left: 30})
+                    .dimension(sentiment)
+                    .group(sentimentGroup)
+                    .elasticY(true)
+                    .centerBar(true)
+                    .gap(.1)
+                    //.round(dc.round.floor)
+                    //.x(d3.scale.linear().domain([-4, 4]))
+                    //.x(d3.scale.ordinal().rangeRoundBands([0, 200], .7))
+                    .x(d3.scale.ordinal().domain([0, 4]))     //will work
+
+                    //work in progress based on example, data stands for data set variable, combine the domain and range in teh example right now they are separate for no reason halfway down teh code it says x.domain instead of putting it where the var is made
+                    //.x(d3.scale.ordinal().domain(function(d) {return d.sentiment}))
+                    //.x(d3.scale.ordinal().domain(sentiment).rangeRoundBands([0, 250], 1))
+                    //.x(d3.scale.linear(function(d) {return x(d.sentiment) }))   //will work
+                    //.xUnits(["negative", "positive", "neutral"])
+                    //.renderHorizontalGridLines(true)
+                    .xAxis()
+                    .tickFormat(function(v) {
+                        return v;
+                    });
+            */
+            reachChart.width(295)
+                    .height(150)
+                    .margins({top: 20, right: 30, bottom: 50, left: 40})
+                    .dimension(reach)
+                    .group(reachGroup)
+                    .elasticY(true)
+                    .centerBar(true)
+                    .gap(.7)
+                    .round(dc.round.floor)
+                    .x(d3.scale.linear().domain([0, 101]))
+                    //.renderHorizontalGridLines(true)
+                    .xAxis()
+                    .tickFormat(function(v) {
+                        return v;
+                    });
+        /*
+            hourChart.width(340)
+                .height(150)
+                .margins({top: 20, right: 30, bottom: 50, left: 30})
+                    .dimension(hrkloog) //hour
+                    .group(hrkloogGroup) //can work with hourGroup, alternative is hours
+                    .elasticY(true)
+                    .centerBar(true)
+                    .gap(.7)
+                    //.range(1000, 3000[200])
+                    //.round(dc.round.floor)
+                    .x(d3.scale.linear().domain([-1, 24]))
+                    //WHY NO RANGE?
+                    //.renderHorizontalGridLines(true)
+                    .xAxis()
+                    .tickFormat(function(v) {
+                        return v;
+                    });
+        */
+            var n_bins = 20;
+            var xExtent = d3.extent(data, function(d) { return d.followers; });
+            var binWidth = (xExtent[1] - xExtent[0]) / n_bins;
+            var grp = follower.group(function(d) { return Math.floor(d/binWidth) * binWidth; });
+            
+            followerChart.width(295)
+                    .height(150)
+                    .margins({top: 20, right: 30, bottom: 50, left: 40})
+                    .dimension(follower)
+                    .group(grp)
+                    .round(Math.floor)
+                    .centerBar(false)
+                    .x(d3.scale.linear().domain(xExtent).range([0,n_bins]))
+                    .elasticY(true)
+                    .xAxis()
+                    .ticks(4);
+
+                    //new chart for volume
+/*            dateChart.width(400)
+                .height(150)
+                .margins({top: 20, right: 30, bottom: 50, left: 30})
+                    .dimension(datedim) //hour
+                    .group(dateGroup) //can work with hourGroup, alternative is hours
+                    .elasticY(true)
+                    .centerBar(true)
+                    .gap(.7)
+                    //.range(1000, 3000[200])
+                    //.round(dc.round.floor)
+                    .x(d3.scale.linear().domain([0, 10]))
+                    //WHY NO RANGE?
+                    //.renderHorizontalGridLines(true)
+                    .xAxis()
+                    .tickFormat(function(v) {
+                        return v;
+                    });
+*/
+                    //end of new chart
+
+                    //new chart
+            dateChart.width(990)
+                    .height(120)
+                    .margins({top: 0, right: 50, bottom: 20, left: 40})
+                    .dimension(datesum)
+                    .group(datesumGroup)
+                    .centerBar(true)
+                    .x(d3.time.scale().domain([new Date(2012, 11, 30), new Date(2012, 12, 11)]))
+                    .round(d3.time.day.round)
+                    .xUnits(d3.time.days)
+                    .renderlet(function(chart){
+                        chart.select("g.y").style("display", "none");
+                        //moveChart.filter(chart.filter());
+                    });
+                    //end new chart
+
+
+    //END OF THREE NEW CHARTS
+
+            /*
+            dayChart.width(400)
+                    .height(150)
+                    .margins({top: 30, right: 30, bottom: 50, left: 30})
+                    .dimension(fluctuation)
+                    .group(fluctuationGroup)
+                    .elasticY(true)
+                    .centerBar(true)
+                    .gap(.7)
+                    .round(dc.round.floor)
+                    .x(d3.scale.linear().domain([-4, 10]))
+                    //.renderHorizontalGridLines(true)
+                    .xAxis()
+                    .tickFormat(function(v) {
+                        return v + "%";
+                    });
+            */
+
+            sentimentBubbleChart.width(340)
+                    .height(150)
+                    .margins({top: 20, right: 0, bottom: 50, left: 50})
+                    .dimension(sentiment)
+                    .group(sentimentStats)
+                    .colors(d3.scale.ordinal().domain(["negative", "neutral", "positive"]).range(["red", "grey", "green"]))
+                    .keyAccessor(function(p) {return p.value.tweetnumber;})
+                    .valueAccessor(function(p) {return p.value.followers;}) //if put 'reach' it freaks out
+                    .radiusValueAccessor(function(p) {return p.value.tweetnumber;})
+                    .x(d3.scale.linear().domain([0, 100]))
+                    .y(d3.scale.linear().domain([0, 10000]))
+                    .r(d3.scale.linear().domain([0, 100]))
+                    //x(d3.scale.linear().domain([0, 5000]))
+                    //y(d3.scale.linear().domain([0,4000]))
+                    //r(d3.scale.linear().domain([0, 4000]))
+                    .minRadiusWithLabel(15)
+                    .elasticY(true)
+                    .yAxisPadding(100)
+                    .elasticX(true)
+                    .xAxisPadding(200)
+                    .maxBubbleRelativeSize(0.07) //2.5
+                    //.renderHorizontalGridLines(true)
+                    //.renderVerticalGridLines(true)
+                    .renderLabel(true)
+                    .renderTitle(true)
+                    .title(function(p) {
+                        return p.key
+                                + "\n"
+                                + "Tweets: " + numberFormat(p.value.tweetnumber) + "\n"
+                                + "Followers: " + numberFormat(p.value.followers);
+                    });
+            sentimentBubbleChart.yAxis().tickFormat(function(s){return s;});
+            sentimentBubbleChart.xAxis().tickFormat(function(s){return s;});
+/*
+            volumeChart.width(990)
+                    .height(120)
+                    .margins({top: 0, right: 50, bottom: 20, left: 40})
+                    .dimension(moveDays)
+                    .group(volumeByDayGroup)
+                    .centerBar(true)
+                    .x(d3.time.scale().domain([new Date(2011, 10, 1), new Date(2012, 8, 31)]))
+                    .round(d3.time.day.round)
+                    .xUnits(d3.time.days)
+                    .renderlet(function(chart){
+                        chart.select("g.y").style("display", "none");
+                        //moveChart.filter(chart.filter());
+                    });
+*/
+            dc.dataCount(".dc-data-count")
+                    .dimension(ndx)
+                    .group(all);
+
+
+            sentimentPieChart.width(180)
+                    .height(180)
+                    .radius(80)
+                    .dimension(sentiment)
+                    .group(sentimentGroup)
+                    .label(function (d) {
+                        return d.data.key + "(" + Math.floor(d.data.value / all.value() * 100) + "%)";
+                    });
+
+
+            //new output'
+            /*
+            dc.dataTable("data-output")
+                    .dimension(dateDimension)
+                    .group(function(d) {
+                        var format = d3.format("02d");
+                        return d.dd.getFullYear() + "/" + format((d.dd.getMonth() + 1));
+                    })
+                    .size(10)
+                    .columns([
+                        function(d) {
+                            return 'd.followers';
+                        }
+            ])
+                    .sortBy(function(d) {
+                        return d.dd;
+                    })
+                    .order(d3.ascending);
+            */
+
+            dc.dataTable(".dc-data-table")
+                    .dimension(dateDimension)
+                    .group(function(d) {
+                        var format = d3.format("02d");
+                        return d.dd.getFullYear() + "/" + format((d.dd.getMonth() + 1));
+                    })
+                    .size(10)
+                    .columns([
+                function(d) {
+                    return d.date;
+                    //return d.date
+                },
+                function(d) {
+                    return d.tweet;
+                    //return d.tweet
+                },
+                function(d) {
+                    //return d.close;
+                    return d.sentiment;
+                },
+                function(d) {
+                    //return numberFormat(d.close - d.open);
+                    return d.reach;
+                },
+                function(d) {
+                    return d.followers;
+                }
+            ])
+                    .sortBy(function(d) {
+                        return d.dd;
+                    })
+                    .order(d3.ascending);
+
+            dc.renderAll();
+        }
+);
+</script>
+
+</body>
+</html>

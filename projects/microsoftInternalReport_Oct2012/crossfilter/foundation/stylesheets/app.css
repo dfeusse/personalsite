@@ -1,0 +1,73 @@
+/* Generic classes */
+.content {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+
+    /* include height for now, but should probably be removed once content is added */
+    height: 200px;
+}
+.purple {
+    background-color: #A700AE;
+}
+.blue {
+    background-color: #047AD6;
+}
+.red {
+    background-color: #BF1E4B;
+}
+.green {
+    background-color: #00A600;
+}
+.orange {
+    background-color: #FE7C22;
+}
+.teal {
+    background-color: #00A0B1;
+}
+.pink {
+    background-color: #FF1077;
+}
+.skyblue {
+    background-color: #1FAEFF;
+}
+.yellow {
+    background-color: #FF981D;
+}
+
+/* layout */
+.header {
+    margin-bottom: 20px;
+}
+.sidebar, .sidebar .content {
+    height: 610px; /* This is the height of content * 3 + 10px */
+}
+.logo {
+    position: absolute;
+    left: 0;
+    top: 30px;
+}
+.heading {
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+}
+.dropdownMenu {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+}
+.links {
+    margin-top: 10px;
+    text-align: right;
+    list-style: none;
+}
+.links li {
+    display: inline;
+    padding: 5px 10px;
+    border: 1px solid black;
+    margin-left: 10px;
+}
+
+
+

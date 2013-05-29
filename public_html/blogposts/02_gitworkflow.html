@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  	<head>
+  		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+	    <meta charset="utf-8">
+	    <title>Template &middot; Bootstrap</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+
+	    <!-- Le styles -->
+	    <link href="../../roark/bootstrap/css/bootstrap.css" rel="stylesheet">
+	    <link href="../../roark/fontawesome/css/font-awesome.css" rel="stylesheet">
+	    <link href="../style.css" rel="stylesheet">
+	    <style type="text/css"></style>
+
+	    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	    <!--[if lt IE 9]>
+	      <script src="../assets/js/html5shiv.js"></script>
+	    <![endif]-->
+
+    	<!-- Google Analytics -->
+	    <script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		 	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-40859148-1', 'danielfeusse.com');
+		 	ga('send', 'pageview');
+	    </script>
+
+  	</head>
+  	<body>
+
+    <div class="container">
+
+      	<div class="masthead">
+        	<h1 class="name">Daniel Feusse</h1>
+      	</div>
+
+      	<ul class="nav nav-pills">
+  			<li class="lead"><a href="../index.html">About</a></li>
+  			<li class="lead"><a href="../blog.html">Blog</a></li>
+  			<li class="lead"><a href="../projects.html">Projects</a></li>
+  			<li class="lead"><a href="../templates.html">D3</a></li>
+		</ul>
+      
+        <p class="lead mainmessage"> Git and Github workflow for a two person team. Or just using two computers.</p>
+        <p class="lead date">May 2013</p>
+
+    </div> <!-- end of container 1 -->
+
+    <div class="blogPostBody">
+        <div class="container">
+        	<p>
+          		I have seen infinite git and Gthub tutorials posted throughout the internet. I work on two computers, a personal Macbook and a machine running Windows for work. I wanted to post a basic, crystal clear list of commands people could follow for either working on two different computers or working with a partner. This assumes you have a Github account. Go to this account on github.com and create a new repository. My username is dfeusse, so saubsitute your useername for mine in the commands.
+          		<br>
+
+          		1. Make sure you have generated SSH keys. If this is unfamilar, follow the directions in <a href="https://help.github.com/articles/generating-ssh-keys">this link</a>. It is very simple.
+          		<br>
+
+          		2. On your first Windows machine, follow these commands after navigating into the correct directory using the git bash.
+          		<br>
+          		git init
+          		<br>
+          		got config core.autocrlf false
+          		<br>
+          		git remote add origin git@github.com:dfeusse/x.git
+          		<br>
+          		git pull origin master 
+          		<br>
+          		git push origin master
+          		<br>
+
+          		3. Now go to your Macbook/second computer, or this can be the second person working on the same team. Follow these commands after navigating into the correct directory.
+          		<br>
+          		git init
+          		<br>
+          		git remote add origin git@github.com:dfeusse/x.git
+          		<br>
+          		git pull origin master
+          		<br>
+
+          		4. Now you can make any changes desired. After, you just have to push to master. This is how the files appear on Github. Then on the other machine, or the other person, can pull these changes, his directory will be updated, and he can do whatever work desired.
+
+        	</p>
+      	</div>
+    </div>
+
+
+    <div class="container">
+        <div class="backtoblog">
+          	<a href="blog2.html">Back to list of posts</a>
+        </div>
+
+        <ul id="social">
+            <li>
+              	<a href="mailto:dfeusse@gmail.com?subject=hi" id="sidebar-email" class="icon-envelope-alt" title="Say hi"></a>
+            </li>
+
+            <li>
+              	<a href="http://www.linkedin.com/in/dfeusse" id="sidebar-linkedin" class="icon-linkedin-sign" title="My LinkedIn page"></a>
+            </li>
+
+            <li>
+              <a href="http://github.com/dfeusse" id="sidebar-github" class="icon-github" title="I share and fork code here"></a>
+            </li>
+          </ul>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

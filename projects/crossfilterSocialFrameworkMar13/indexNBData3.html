@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>dc.js - Dimensional Charting Javascript Library</title>
+    <link rel="shortcut icon" href="favicon.ico"> 
+    <meta charset="UTF-8">
+    <!-- JS files -->
+    <script src="d3.v2.js" type="text/javascript"></script>
+    <script src="crossfilter.v1.js" type="text/javascript"></script>
+    <script src="dc1.2.js" type="text/javascript"></script>
+    <script src='highlighter/shCore.js' type='text/javascript'></script>
+    <script src="highlighter/shAutoloader.js" type="text/javascript"></script>
+    <script src='highlighter/shBrushJScript.js' type='text/javascript'></script>
+    <script src='highlighter/shBrushXml.js' type='text/javascript'></script>
+    <!-- CSS files -->
+    <link href="dc.css" rel="stylesheet" type="text/css"/> 
+    <link href="index.css" rel="stylesheet" type="text/css"/> 
+    <link href='highlighter/shCore.css' rel='stylesheet' type='text/css'/>
+    <link href='highlighter/shThemeDefault.css' rel='stylesheet' type='text/css'/>
+    
+    <style>
+    	/* place style in index.css */
+    </style>
+</head>
+<body>
+    <div class="content">
+        <p class="header">Microsoft Report</p>
+        <!-- <p> Source: Netbase <br> Date range: 11.1.12 to 1.31.13</p> -->
+
+        <div id="pone">
+            <p id="insights">
+                Can insert insights which will transform the visual when clicking on it. So can lead the audience to exact insights you want them to see and they can toggle back and forth. For example, can show positive tweets <a href="javascript:dc.filterAll(); dc.renderAll(); javascript:sentimentChart.filter([positive]); dc.redrawAll();"> positive </a> and there is a high Klout score <a href="javascript:dc.filterAll(); dc.renderAll(); javascript:kloutChart.filter([50,95]);dc.redrawAll();"> between 50 and 95 </a>. Or can filter it by multiple filters and show data both <a href="javascript:dc.filterAll(); dc.renderAll(); javascript:kloutChart.filter([50,95]); dc.redrawAll();javascript:followersChart.filter([10000,100000]);dc.redrawAll();"> between 10K and 100K followers and between 70 and 95 Klout score </a>.
+            </p>
+        </div>
+
+        <div class="centre">  
+            <div id="sentiment-chart" >
+                <span>Sentiment</span>
+                <a class="reset" href="javascript:sentimentChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                <div class="clear"></div>
+            </div> 
+
+            <div id="klout-chart">
+                <span>Klout</span>
+                <a class="reset" href="javascript:kloutChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                <div class="clear"></div>
+            </div>
+
+            <div id="follower-chart" >
+                <span>Followers</span>
+                <a class="reset" href="javascript:followerChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div id="date-chart">
+            <span>Total Tweets</span>
+            <a class="reset" href="javascript:dateChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clear"></div>
+        </div>
+
+        <div class="dc-data-count">
+            <span class="filter-count"></span> selected out of <span class="total-count"></span> records | 
+            <a href="javascript:dc.filterAll(); dc.renderAll();" style="color: rgb(164,0,29)"><b>Reset All</b></a>
+            <div class="clear"></div>
+        </div>
+
+        <div id="table">
+            <table class="dc-data-table">
+                <thead>
+                    <tr class="header">
+                        <td>Date</td>
+                        <td>Tweet</td>
+                        <td>Sentiment</td>
+                        <td>Klout</td>
+                        <td>Followers</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <script type="text/javascript">
+            var sentimentChart = dc.barChart("#sentiment-chart")
+            var kloutChart = dc.barChart("#klout-chart")
+            var followerChart = dc.barChart("#follower-chart")
+            var dateChart = dc.barChart("#date-chart");
+
+            // set dc.js version in title
+            d3.selectAll("#version").text(dc.version);
+
+            //load data from a file, either d3.json or d3.csv("filename")
+            d3.csv("newdata.csv", function(data) {
+
+                //date format
+                var dateFormat = d3.time.format("%m/%d/%Y");
+                var numberFormat = d3.format(".2f");
+
+                data.forEach(function(e) {
+                    e.dd = dateFormat.parse(e.date);
+                    e.month = d3.time.month(e.dd); // pre-calculate month for better performance
+                    e.day = d3.time.day(e.dd);
+                });
+
+                // feed data through crossfilter
+                var ndx = crossfilter(data);
+                var all = ndx.groupAll();
+
+                var dateDimension = ndx.dimension(function(d) {
+                    return d.dd; });
+
+                var sentiment = ndx.dimension(function(d) { 
+                    return d.sentiment; });
+
+                var sentimentGroup = sentiment.group(function(d) {
+                    return d; });
+
+                var klout = ndx.dimension(function(d) {
+                    return d.klout; });
+
+                var kloutGroup = klout.group(function(d) {
+                    return d; });
+
+                var follower = ndx.dimension(function(d) { 
+                    return d.followers; });
+
+                var followerGroup = follower.group(function(d) {
+                    return Math.round(d/250) * 250; });
+
+                var follGroup = follower.group(function(d) {
+                    return d; });
+
+                var date = ndx.dimension(function(d) {
+                    return d.day; });
+
+                var dateGroup = date.group(function(d) { 
+                    return d; });
+
+                /* charts defined */
+                /*
+                sentimentChart.width(180)
+                    .height(180)
+                    .radius(80)
+                    .dimension(sentiment)
+                    .group(sentimentGroup)
+                    .label(function (d) {
+                        return d.data.key + "(" + Math.floor(d.data.value / all.value() * 100) + "%)";
+                    });
+                */
+
+                sentimentChart.width(280)
+                    .height(150)
+                    .margins({top: 20, right: 30, bottom: 50, left: 40})
+                    .dimension(sentiment)
+                    .group(sentimentGroup)
+                    .elasticY(true)
+                    .centerBar(true)
+                    .gap(.7)
+                    //.round(dc.round.floor)
+                    .x(d3.scale.ordinal().domain(["", "Positive", "Mixed", "Negative"]))
+                    .xUnits(dc.units.ordinal)
+                    .xAxis()
+                    .tickFormat(function(v) {
+                        return v; });
+
+                kloutChart.width(295)
+                    .height(150)
+                    .margins({top: 20, right: 30, bottom: 50, left: 20})
+                    .dimension(klout)
+                    .group(kloutGroup)
+                    .elasticY(true)
+                    .centerBar(true)
+                    .gap(.7)
+                    .round(dc.round.floor)
+                    .x(d3.scale.linear().domain([0, 101]))
+                    .xAxis()
+                    .tickFormat(function(v) {
+                        return v; });
+
+                followerChart.width(285)
+                    .height(150)
+                    .margins({top: 10, right: 25, bottom: 50, left: 40})
+                    .dimension(follower)
+                    .group(follGroup)
+                    //.round(Math.floor)
+                    .centerBar(false)
+                    //.x(d3.scale.linear().domain([0,5000]).rangeRound([0,240]))
+                    .x(d3.scale.linear().domain([-10,100000]))
+                    //.xUnits(function() {return 100; })
+                    .elasticY(true)
+                    .xAxis()
+                    .ticks(6);
+
+                dateChart.width(990)
+                    .height(120)
+                    .margins({top: 0, right: 50, bottom: 20, left: 40})
+                    .dimension(date)
+                    .group(dateGroup)
+                    .centerBar(true)
+                    //.elasticY(true)
+                    .x(d3.time.scale().domain([new Date(2012, 9, 10), new Date(2013, 1, 11)]))
+                    .round(d3.time.day.round)
+                    .xUnits(d3.time.days);
+                 //   .renderlet(function(chart){
+                  //      chart.select("g.y").style("display", "none");
+                        //moveChart.filter(chart.filter());
+                 //   });   
+
+                dc.dataCount(".dc-data-count")
+                    .dimension(ndx)
+                    .group(all);
+
+                dc.dataTable(".dc-data-table")
+                    .dimension(dateDimension)
+                    .group(function(d) {
+                        var format = d3.format("02d");
+                        return d.dd.getFullYear() + "/" + format((d.dd.getMonth() + 1));
+                    })
+                    .size(10)
+                    .columns([
+                        function(d) {
+                            return d.date; },
+                        function(d) {
+                            return d.tweet; },
+                        function(d) {
+                            return d.sentiment; },
+                        function(d) {
+                            return d.klout; },
+                        function(d) {
+                            return d.followers; }
+                        ])
+                    .sortBy(function(d) {
+                        return d.dd; })
+                    .order(d3.ascending);
+
+                dc.renderAll();
+            });
+        </script> <!-- end of text/javascript, where d3 code is placed -->
+    </div> <!-- end of, div class="content", originated immediately after body -->
+</body>
+</html>

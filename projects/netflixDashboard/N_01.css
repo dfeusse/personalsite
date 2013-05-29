@@ -1,0 +1,77 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+.block {
+	float:left;
+	height:120px;
+}
+.pink { 
+	background:#ee3e64;
+	width:400px; /*useless, delete */
+}
+.blue { 
+	display:table; 
+	background:#44accf; 
+	float:right;
+}
+.netflixlogo {
+	display:table-cell;
+	vertical-align:middle;
+}
+.floatleft {
+	float:left;
+}
+.totalPostsContainer {
+	background:steelblue;
+	height: 120px;
+	width: 100%;
+}
+.totalPostsHeader {
+	margin-left:auto;
+	margin-right:auto;
+	width:17%;
+}
+.totalSentimentHeader {
+	margin-left:auto;
+	margin-right:auto;
+	width:52%;
+}
+.totalFollowersHeader {
+	margin-left:auto;
+	margin-right:auto;
+	width:32%;
+}
+.totalKloutHeader {
+	margin-left:auto;
+	margin-right:auto;
+	width:32%;
+}
+.yellow {
+	display:table; 
+	background:yellow; 
+}
+.totalPosts_Icon {
+	display:table-cell;
+	vertical-align:middle;
+}
+.green { 
+	display:table; 
+	background:#b7d84b; 
+	float:left;
+}
+.totalPosts_Text {
+	display:table-cell;
+	vertical-align:middle;
+	font-size: 28px;
+}
+.sentimentPosts_Text {
+	display:table-cell;
+	vertical-align:middle;
+	font-size: 28px;
+}
+.sentimentButtonPadding {
+	padding-left:30px;
+}
+.sentimentTextPadding {
+	padding-left:20px;
+}
