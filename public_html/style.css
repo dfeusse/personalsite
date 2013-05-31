@@ -144,8 +144,9 @@ body {
 /* Project Posts */
 .projectDescription {
     background-color:#e2e2e2;
-    font-size: 20px;
-    line-height: 1;
+    font-size: 21px;
+    font-weight: 200;
+    line-height: 30px;
     /*opacity: 0.8;*/
     color: black;
     padding-top: 10px;
@@ -169,6 +170,9 @@ body {
     height:232px; 
     width:290px;
 }
+.projectImageDiv {
+    height:235px;
+}
 
 /* To do templates */
 .d3imagetodo {
@@ -182,6 +186,9 @@ h3 {
 .imageResize {
     height:160px; 
     width:188px;
+}
+.commonTemplates {
+    margin-bottom: 20px;
 }
 
 

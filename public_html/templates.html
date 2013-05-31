@@ -12,7 +12,11 @@
 	    <link href="../roark/bootstrap/css/bootstrap.css" rel="stylesheet">
 	    <link href="../roark/fontawesome/css/font-awesome.css" rel="stylesheet">
 	    <link href="style.css" rel="stylesheet">
-	    <style type="text/css"></style>
+	    <style type="text/css">
+	    	.thumbnail {
+	    		height: 270px;
+	    	}
+	    </style>
 
 	    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	    <!--[if lt IE 9]>
@@ -63,8 +67,8 @@
 					            <li class="nav-header">Chart types</li>
 					              	<li><a href="templates/chart_types/bar_templates.html">Bar</a></li>
 					              	<li><a href="templates/chart_types/line_templates.html">Line</a></li>
-					              	<li><a href="#">Scatterplot</a></li>
-					              	<li><a href="#">Area</a></li>
+					              	<li><a href="templates/chart_types/scatterplot_templates.html">Scatterplot</a></li>
+					              	<li><a href="templates/chart_types/area_templates.html">Area</a></li>
 					              	<li><a href="templates/chart_types/forcedirected_templates.html">Force Directed</a></li>
 					              	<li><a href="templates/chart_types/custom_templates.html">Custom</a></li>
 		            		</ul>
@@ -75,33 +79,37 @@
 			        	<ul class="thumbnails">
 			              	<li class="span4">
 			                	<div class="thumbnail">
-			                		<div class="d3imagetodo">
-				                  		<a href="../d3_templates/bar/hugeBarSexpotTransitions/filteredBar.html" target="_blank"><img src="../d3_templates/bar_img/filteredBar.JPG" alt="" class="imageResize"></a>
+			                		<div class="d3imagetodo commonTemplates">
+				                  		<a href="templates/chart_types/bar_templates.html"><img src="../d3_templates/bar_img/filteredBar.JPG" alt="" class="imageResize"></a>
 				                  	</div>
 			                 		<div class="caption">
-			                    		<h3>sexy transitions using radio buttons</h3>
-			                    		<p>So so smooth. Great use of error argument when declaring main funciton.</p>
-			                    		<p><a href="../d3_templates/bar/hugeBarSexpotTransitions/filteredBar.html" target="_blank" target="_blank">see example</a></p>
+			                    		<h3>bar</h3>
+			                    		<p></p>
+			                    		<p><a href="../d3_templates/bar/hugeBarSexpotTransitions/filteredBar.html" target="_blank" target="_blank">see examples</a></p>
 			                  		</div>
 			                	</div>
 			              	</li>
 			              	<li class="span4">
 			                	<div class="thumbnail">
-			                  		<a href="#"><img src="mockpic.PNG" alt=""></a>
+			                		<div class="d3imagetodo commonTemplates">
+			                  			<a href="templates/chart_types/line_templates.html"><img src="../d3_templates/line_img/dualLine.JPG" alt="" class="imageResize"></a>
+			                  		</div>
 			                 		<div class="caption">
-			                    		<h3>Ex 2</h3>
-			                    		<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-			                    		<p><a href="#">Read more</a></p>
+			                    		<h3>line</h3>
+			                    		<p></p>
+			                    		<p><a href="templates/chart_types/line_templates.html">see examples</a></p>
 			                  		</div>
 			                	</div>
 			              	</li>
 			              	<li class="span4">
 			                	<div class="thumbnail">
-			                  		<a href="#"><img src="mockpic.PNG" alt=""></a>
+			                		<div class="d3imagetodo commonTemplates">
+			                  			<a href="templates/chart_types/scatterplot_templates.html"><img src="../d3_templates/scatterplot_img/fullfeaturesYetBasic.JPG" alt="" class="imageResize"></a>
+			                  		</div>
 			                 		<div class="caption">
-			                    		<h3>Ex 3</h3>
-			                    		<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-			                    		<p><a href="#">Read more</a></p>
+			                    		<h3>scatterplot</h3>
+			                    		<p></p>
+			                    		<p><a href="templates/chart_types/scatterplot_templates.html">see examples</a></p>
 			                  		</div>
 			                	</div>
 			              	</li>
@@ -110,35 +118,82 @@
 						<ul class="thumbnails">
 			              	<li class="span4">
 			                	<div class="thumbnail">
-			                  		<a href="#"><img src="mockpic.PNG" alt=""></a>
-			              			<div class="caption">
-			                			<h3>Ex 1</h3>
-			                			<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-			                			<p><a href="#">Read more</a></p>
-			              			</div>
-			                	</div>
-			              	</li>
-			              	<li class="span4">
-			                	<div class="thumbnail">
-			                  		<a href="#"><img src="mockpic.PNG" alt=""></a>
+			                		<div class="d3imagetodo commonTemplates">
+			                  			<a href="templates/chart_types/area_templates.html"><img src="../d3_templates/area_img/posNegSentiment.JPG" alt=""></a>
+			                  		</div>
 			                 		<div class="caption">
-			                    		<h3>Ex 2</h3>
-			                    		<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-			                    		<p><a href="#">Read more</a></p>
+			                    		<h3>area</h3>
+			                    		<p></p>
+			                    		<p><a href="templates/chart_types/area_templates.html">see examples</a></p>
 			                  		</div>
 			                	</div>
 			              	</li>
 			              	<li class="span4">
 			                	<div class="thumbnail">
-			                  		<a href="#"><img src="mockpic.PNG" alt=""></a>
+			                		<div class="d3imagetodo commonTemplates">
+			                  			<a href="templates/chart_types/forcedirected_templates.html"><img src="../d3_templates/forcedirected_img/multifociEx.png" alt="" class="imageResize"></a>
+			                  		</div>
 			                 		<div class="caption">
-			                    		<h3>Ex 3</h3>
-			                    		<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-			                    		<p><a href="#">Read more</a></p>
+			                    		<h3>force directed</h3>
+			                    		<p></p>
+			                    		<p><a href="templates/chart_types/forcedirected_templates.html">see examples</a></p>
+			                  		</div>
+			                	</div>
+			              	</li>
+			              	<li class="span4">
+			                	<div class="thumbnail">
+			                		<div class="d3imagetodo commonTemplates">
+			                  			<a href="templates/chart_types/custom_templates.html"><img src="../d3_templates/custom_img/clock.png" alt="" class="imageResize"></a>
+			                  		</div>
+			                 		<div class="caption">
+			                    		<h3>custom</h3>
+			                    		<p></p>
+			                    		<p><a href="templates/chart_types/custom_templates.html">see examples</a></p>
 			                  		</div>
 			                	</div>
 			              	</li>
 						</ul>
+
+						<!--
+						<ul class="thumbnails">
+			              	<li class="span4">
+			                	<div class="thumbnail">
+			                		<div class="d3imagetodo commonTemplates">
+			                  			<a href="#"><img src="mockpic.PNG" alt=""></a>
+			                  		</div>
+			                 		<div class="caption">
+			                    		<h3>scatterplot</h3>
+			                    		<p></p>
+			                    		<p><a href="#">see examples</a></p>
+			                  		</div>
+			                	</div>
+			              	</li>
+			              	<li class="span4">
+			                	<div class="thumbnail">
+			                		<div class="d3imagetodo commonTemplates">
+			                  			<a href="#"><img src="mockpic.PNG" alt=""></a>
+			                  		</div>
+			                 		<div class="caption">
+			                    		<h3>scatterplot</h3>
+			                    		<p></p>
+			                    		<p><a href="#">see examples</a></p>
+			                  		</div>
+			                	</div>
+			              	</li>
+			              	<li class="span4">
+			                	<div class="thumbnail">
+			                		<div class="d3imagetodo commonTemplates">
+			                  			<a href="#"><img src="mockpic.PNG" alt=""></a>
+			                  		</div>
+			                 		<div class="caption">
+			                    		<h3>scatterplot</h3>
+			                    		<p></p>
+			                    		<p><a href="#">see examples</a></p>
+			                  		</div>
+			                	</div>
+			              	</li>
+						</ul>
+						-->
 					</div>	
 		        </div><!--/span-->
 		    </div><!--/row-->
