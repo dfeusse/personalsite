@@ -12,7 +12,45 @@
 	    <link href="../../../roark/bootstrap/css/bootstrap.css" rel="stylesheet">
 	    <link href="../../../roark/fontawesome/css/font-awesome.css" rel="stylesheet">
 	    <link href="../../style.css" rel="stylesheet">
-	    <style type="text/css"></style>
+	    <style type="text/css">
+
+        #view_selection {
+          margin-top: 10px;
+        }
+
+        .sentiment {
+          font-size: 21px;
+          fill: #aaa;
+        }
+
+        .tooltip {
+          position: absolute;
+          top: 100px;
+          left: 100px;
+          -moz-border-radius:5px;
+          border-radius: 5px;
+          border: 2px solid #000;
+          /* background: #222222; */
+          background: #fff;
+          opacity: .9;
+          /* color: #eeeeee; */
+          color: black;
+          padding: 10px;
+          width: 200px;
+          font-size: 12px;
+          z-index: 10;
+        }
+
+        .tooltip .title {
+          font-size: 13px;
+        }
+
+        .tooltip .name {
+          font-weight:bold;
+          color: black;
+        }
+
+      </style>
 
 	    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	    <!--[if lt IE 9]>
@@ -48,8 +86,7 @@
     <div class="projectDescription">
         <div class="container">
         	<p>
-          		Got to do really fun things like put an Oscar Wilde quote in because I love Oscar Wilde.
-          		Click on the image to go to the presentation.
+          		This was a fun project to work on. We had a ton of Twitter data and the objective was to show sentiment breakout. Most of the time there is a simple bar chart showing the sentiment breakout of a topic. The weakness of that though is the audience doesn't get to see more granularly into each sentiment. For example, which topics were negative? What were the largest topics spoken about in a negative way? I thought this bubble chart showed different aspects of sentiment around Windows 8 really well because the viewer can see which topics were mentioned most on Twitter both as a whole as well as in each sentiment bin. They can also see the size of each sentiment bin.
         	</p>
       	</div>
     </div>
