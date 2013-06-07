@@ -245,10 +245,6 @@ h3 {
     font-weight: 300;
 
 }
-.emma a:hover, a:visited:hover {
-    text-decoration:none;
-    color:black;
-}
 ul#social {
     margin-top:20px;
 }
